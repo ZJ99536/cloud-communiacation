@@ -676,6 +676,7 @@ if __name__ == "__main__":
     wpx = [1,1]
     wpy = [1,1]
     wpz = [1,1]
+    count = 0
     for x0i in range(-10,11):
         for x1i in range(0,1):
             for y0i in range(-10,11):
@@ -688,6 +689,9 @@ if __name__ == "__main__":
                             wpy[1] = 0.0 + y1i * 0.2
                             wpz[0] = 2.0 + z0i * 0.1
                             wpz[1] = 2.0 + z1i * 0.2
+
+                            count += 1
+                            print(count, "/ 9261")
                     
                             plan = Planner(wpx,wpy,wpz)
                             x_sol, dt, N, NW = plan.solve()
