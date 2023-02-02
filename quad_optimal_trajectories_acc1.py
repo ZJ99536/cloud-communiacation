@@ -1,6 +1,6 @@
 from casadi import MX, DM, vertcat, horzcat, veccat, norm_2, dot, mtimes, nlpsol, diag, repmat, sum1, sin, cos, tan
 import casadi as ca
-from cv2 import sqrt
+# from cv2 import sqrt
 import numpy as np
 # from pygments import lex
 import matplotlib.pyplot as plt
@@ -670,7 +670,7 @@ if __name__ == "__main__":
     # u_4 = []
     # u = []
 
-    f = open("/home/zhoujin/cloud-communiacation/library/quad1.txt",'w')      
+    f = open("/root/cloud-communiacation/library/quad1.txt",'w')      
 
     wpx = [1,1]
     wpy = [1,1]
