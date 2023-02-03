@@ -109,6 +109,18 @@ def solve(self):
         g += [lam_init]
         lb += [1]*self.NW
         ub += [1]*self.NW
+        mu_init = MX.sym('mu_init', self.NW)
+        x += [mu_init]
+        xg += [0]*self.NW
+        g += [mu_init]
+        lb += [0]*self.NW
+        ub += [0]*self.NW
+        tau = MX.sym('tau', self.NW)
+        x += [tau]
+        xg += [0] * self.NW
+        g += [tau]
+        lb += [0]*self.NW
+        ub += [self.tol**2]*(self.NW)
 
         accx_init = MX.sym('accx_init', self.NX)
         x += [accx_init]
@@ -128,20 +140,6 @@ def solve(self):
         g += [accz_init]
         lb += [0]
         ub += [0]
-
-        mu_init = MX.sym('mu_init', self.NW)
-        x += [mu_init]
-        xg += [0]*self.NW
-        g += [mu_init]
-        lb += [0]*self.NW
-        ub += [0]*self.NW
-        tau = MX.sym('tau', self.NW)
-        x += [tau]
-        xg += [0] * self.NW
-        g += [tau]
-        lb += [0]*self.NW
-        ub += [self.tol**2]*(self.NW)
-
 
         dt = t / (self.N + 1)
 
@@ -245,26 +243,13 @@ def solve(self):
             ub += [self.T_max] * 4
             # ub += [self.m * self.gravity / 4 * 1.3] * 4
 
-
             self.lamx = MX.sym('lam' + str(i), self.NW)
+            self.mux = MX.sym('mu' + str(i), self.NW)
             x += [self.lamx]
             xg += [1]*self.NW
             g += [self.lamx]
             lb += [0]*self.NW
             ub += [1]*self.NW
-            
-            self.accx = MX.sym('accx' + str(i), self.NX)
-            self.accy = MX.sym('accy' + str(i), self.NX)
-            self.accz = MX.sym('accz' + str(i), self.NX)
-            x += [self.accx]
-            xg += [0]
-            x += [self.accy]
-            xg += [0]
-            x += [self.accz]
-            xg += [0]
-            
-            self.mux = MX.sym('mu' + str(i), self.NW)
-            
             x += [self.mux]
             xg += [0]*self.NW
             g += [self.mux]
@@ -276,6 +261,16 @@ def solve(self):
             g += [tau]
             lb += [0]*self.NW
             ub += [self.tol**2]*(self.NW)
+
+            self.accx = MX.sym('accx' + str(i), self.NX)
+            self.accy = MX.sym('accy' + str(i), self.NX)
+            self.accz = MX.sym('accz' + str(i), self.NX)
+            x += [self.accx]
+            xg += [0]
+            x += [self.accy]
+            xg += [0]
+            x += [self.accz]
+            xg += [0]
 
             for j in range(self.NW):
                 diff = (self.sx - self.wpx[j])**2 + (self.sy - self.wpy[j])**2 + (self.sz - self.wpz[j])**2
