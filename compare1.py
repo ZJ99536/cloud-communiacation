@@ -397,39 +397,39 @@ def solve(self):
         ax_end = MX.sym('ax_end', self.NX)
         x += [ax_end]
         xg += [0]
-        # g += [ax_end]
-        # lb += [0]
-        # ub += [0]
+        g += [ax_end]
+        lb += [0]
+        ub += [0]
         ay_end = MX.sym('ay_end', self.NX)
         x += [ay_end]
         xg += [0]
-        # g += [ay_end]
-        # lb += [0]
-        # ub += [0]
+        g += [ay_end]
+        lb += [0]
+        ub += [0]
         az_end = MX.sym('az_end', self.NX)
         x += [az_end]
         xg += [0]
-        # g += [az_end]
-        # lb += [0]
-        # ub += [0]
+        g += [az_end]
+        lb += [0]
+        ub += [0]
         wx_end = MX.sym('wx_end', self.NX)
         x += [wx_end]
         xg += [0]
-        # g += [wx_end]
-        # lb += [0]
-        # ub += [0]
+        g += [wx_end]
+        lb += [0]
+        ub += [0]
         wy_end = MX.sym('wy_end', self.NX)
         x += [wy_end]
         xg += [0]
-        # g += [wy_end]
-        # lb += [0]
-        # ub += [0]
+        g += [wy_end]
+        lb += [0]
+        ub += [0]
         wz_end = MX.sym('wz_end', self.NX)
         x += [wz_end]
         xg += [0]
-        # g += [wz_end]
-        # lb += [0]
-        # ub += [0]
+        g += [wz_end]
+        lb += [0]
+        ub += [0]
 
         u_end = MX.sym('u_end', 4)
         x += [u_end]
@@ -449,21 +449,21 @@ def solve(self):
         accx_end = MX.sym('accx_end', self.NX)
         x += [accx_end]
         xg += [0]
-        # g += [accx_end]
-        # lb += [0]
-        # ub += [0]
+        g += [accx_end]
+        lb += [0]
+        ub += [0]
         accy_end = MX.sym('accy_end', self.NX)
         x += [accy_end]
         xg += [0]
-        # g += [accy_end]
-        # lb += [0]
-        # ub += [0]
+        g += [accy_end]
+        lb += [0]
+        ub += [0]
         accz_end = MX.sym('accz_end', self.NX)
         x += [accz_end]
         xg += [0]
-        # g += [accz_end]
-        # lb += [0]
-        # ub += [0]
+        g += [accz_end]
+        lb += [0]
+        ub += [0]
 
 
         lx = self.sx
@@ -588,4 +588,3 @@ def solve(self):
         self.solution = self.solver(x0=self.xg, lbg=self.lb, ubg=self.ub)
         self.x_sol = self.solution['x'].full().flatten()
         return self.x_sol, dt, self.N, self.NW
-    

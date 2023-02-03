@@ -16,12 +16,12 @@ class Planner:
         # self.wpx = [4.0, 4.5]
         # self.wpy = [8.0, 7.5]
         # self.wpz = [3.0, 6.0]
-        # self.wpx = wpx
-        # self.wpy = wpy
-        # self.wpz = wpz
-        self.wpx = [0.2, 5.0]
-        self.wpy = [-1.4, 0.0]
-        self.wpz = [0.2, 2.0]
+        self.wpx = wpx
+        self.wpy = wpy
+        self.wpz = wpz
+        # self.wpx = [0.2, 5.0]
+        # self.wpy = [-1.4, 0.0]
+        # self.wpz = [0.2, 2.0]
         self.vel_guess = 3.0
         self.tol = 0.2
         self.gravity = 9.81
@@ -36,7 +36,7 @@ class Planner:
         self.dis = ((self.wpx[0])**2 + (self.wpy[0])**2 + (self.wpz[0]-2.0)**2)**0.5
         for i in range(len(self.wpx)-1):
             self.dis += ((self.wpx[i+1]-self.wpx[i])**2 + (self.wpy[i+1]-self.wpy[i])**2 + (self.wpz[i+1]-self.wpz[i])**2)**0.5
-        self.N = int(self.dis / 0.04)
+        self.N = int(self.dis / 0.05)
 
         if self.dis / self.N < self.tol:
             print("sufficient")
@@ -459,39 +459,39 @@ class Planner:
         ax_end = MX.sym('ax_end', self.NX)
         x += [ax_end]
         xg += [0]
-        # g += [ax_end]
-        # lb += [0]
-        # ub += [0]
+        g += [ax_end]
+        lb += [0]
+        ub += [0]
         ay_end = MX.sym('ay_end', self.NX)
         x += [ay_end]
         xg += [0]
-        # g += [ay_end]
-        # lb += [0]
-        # ub += [0]
+        g += [ay_end]
+        lb += [0]
+        ub += [0]
         az_end = MX.sym('az_end', self.NX)
         x += [az_end]
         xg += [0]
-        # g += [az_end]
-        # lb += [0]
-        # ub += [0]
+        g += [az_end]
+        lb += [0]
+        ub += [0]
         wx_end = MX.sym('wx_end', self.NX)
         x += [wx_end]
         xg += [0]
-        # g += [wx_end]
-        # lb += [0]
-        # ub += [0]
+        g += [wx_end]
+        lb += [0]
+        ub += [0]
         wy_end = MX.sym('wy_end', self.NX)
         x += [wy_end]
         xg += [0]
-        # g += [wy_end]
-        # lb += [0]
-        # ub += [0]
+        g += [wy_end]
+        lb += [0]
+        ub += [0]
         wz_end = MX.sym('wz_end', self.NX)
         x += [wz_end]
         xg += [0]
-        # g += [wz_end]
-        # lb += [0]
-        # ub += [0]
+        g += [wz_end]
+        lb += [0]
+        ub += [0]
 
         u_end = MX.sym('u_end', 4)
         x += [u_end]
@@ -511,21 +511,21 @@ class Planner:
         accx_end = MX.sym('accx_end', self.NX)
         x += [accx_end]
         xg += [0]
-        # g += [accx_end]
-        # lb += [0]
-        # ub += [0]
+        g += [accx_end]
+        lb += [0]
+        ub += [0]
         accy_end = MX.sym('accy_end', self.NX)
         x += [accy_end]
         xg += [0]
-        # g += [accy_end]
-        # lb += [0]
-        # ub += [0]
+        g += [accy_end]
+        lb += [0]
+        ub += [0]
         accz_end = MX.sym('accz_end', self.NX)
         x += [accz_end]
         xg += [0]
-        # g += [accz_end]
-        # lb += [0]
-        # ub += [0]
+        g += [accz_end]
+        lb += [0]
+        ub += [0]
 
 
         lx = self.sx
@@ -670,13 +670,13 @@ if __name__ == "__main__":
     # u_4 = []
     # u = []
 
-    f = open("/home/zhoujin/cloud-communiacation/library/quad2.txt",'a')      
+    f = open("/home/zhoujin/cloud-communiacation/library/quad3.txt",'a')      
 
     wpx = [1,1]
     wpy = [1,1]
     wpz = [1,1]
     count = 0
-    for x0i in range(-10,11):
+    for x0i in range(-5,6):
         for x1i in range(0,1):
             for y0i in range(-10,11):
                 for y1i in range(0,1):
@@ -689,60 +689,53 @@ if __name__ == "__main__":
                             wpz[0] = 2 + z0i * 0.2
                             wpz[1] = 2 + z1i * 0.2
 
-                            wpx[0] = 0.2
-                            wpx[1] = 5.0
-                            wpy[0] = -1.4
-                            wpy[1] = 0.0
-                            wpz[0] = 0.2
-                            wpz[1] = 2.0
-
                             count += 1
                             print(count, "/ 9261")
                             print(wpx, wpy, wpz)
-                            if count >= 506:
+                            if count >= 1:
                                 plan = Planner(wpx,wpy,wpz)
                                 x_sol, dt, N, NW = plan.solve()
                                 # # print(x_sol[0])             
-                                # for i in range(N+1):                                
-                                #     f.write(str(wpx[0]-x_sol[2+i*(3*NW + 20)])+',')
-                                #     f.write(str(wpy[0]-x_sol[3+i*(3*NW + 20)])+',')
-                                #     f.write(str(wpz[0]-x_sol[4+i*(3*NW + 20)])+',')
-                                #     f.write(str(wpx[1]-x_sol[2+i*(3*NW + 20)])+',')
-                                #     f.write(str(wpy[1]-x_sol[3+i*(3*NW + 20)])+',')
-                                #     f.write(str(wpz[1]-x_sol[4+i*(3*NW + 20)])+',') 
-                                #     f.write(str(x_sol[5+i*(3*NW + 20)])+',') #vx
-                                #     f.write(str(x_sol[6+i*(3*NW + 20)])+',') #vy
-                                #     f.write(str(x_sol[7+i*(3*NW + 20)])+',') #vz  
-                                #     f.write(str(x_sol[20+i*(3*NW + 20)])+',') #ax
-                                #     f.write(str(x_sol[21+i*(3*NW + 20)])+',') #ay
-                                #     f.write(str(x_sol[22+i*(3*NW + 20)]+9.81)+',') #az
-                                #     f.write(str(x_sol[11+i*(3*NW + 20)])+',') #wx
-                                #     f.write(str(x_sol[12+i*(3*NW + 20)])+',') #wy
-                                #     f.write(str(x_sol[13+i*(3*NW + 20)])+',') #wz
-                                #     f.write(str(x_sol[14+i*(3*NW + 20)]+x_sol[15+i*(3*NW + 20)]+x_sol[16+i*(3*NW + 20)]+x_sol[17+i*(3*NW + 20)])+',')  
-                                #     f.write(str(x_sol[18+i*(3*NW + 20)])+',')  
-                                #     f.write(str(x_sol[19+i*(3*NW + 20)])+',')   
+                                for i in range(N+1):                                
+                                    f.write(str(wpx[0]-x_sol[2+i*(3*NW + 20)])+',')
+                                    f.write(str(wpy[0]-x_sol[3+i*(3*NW + 20)])+',')
+                                    f.write(str(wpz[0]-x_sol[4+i*(3*NW + 20)])+',')
+                                    f.write(str(wpx[1]-x_sol[2+i*(3*NW + 20)])+',')
+                                    f.write(str(wpy[1]-x_sol[3+i*(3*NW + 20)])+',')
+                                    f.write(str(wpz[1]-x_sol[4+i*(3*NW + 20)])+',') 
+                                    f.write(str(x_sol[5+i*(3*NW + 20)])+',') #vx
+                                    f.write(str(x_sol[6+i*(3*NW + 20)])+',') #vy
+                                    f.write(str(x_sol[7+i*(3*NW + 20)])+',') #vz  
+                                    f.write(str(x_sol[20+i*(3*NW + 20)])+',') #ax
+                                    f.write(str(x_sol[21+i*(3*NW + 20)])+',') #ay
+                                    f.write(str(x_sol[22+i*(3*NW + 20)]+9.81)+',') #az
+                                    f.write(str(x_sol[11+i*(3*NW + 20)])+',') #wx
+                                    f.write(str(x_sol[12+i*(3*NW + 20)])+',') #wy
+                                    f.write(str(x_sol[13+i*(3*NW + 20)])+',') #wz
+                                    f.write(str(x_sol[14+i*(3*NW + 20)]+x_sol[15+i*(3*NW + 20)]+x_sol[16+i*(3*NW + 20)]+x_sol[17+i*(3*NW + 20)])+',')  
+                                    f.write(str(x_sol[18+i*(3*NW + 20)])+',')  
+                                    f.write(str(x_sol[19+i*(3*NW + 20)])+',')   
 
-                                #     f.write(str(wpx[0]-x_sol[2+(i+1)*(3*NW + 20)])+',')
-                                #     f.write(str(wpy[0]-x_sol[3+(i+1)*(3*NW + 20)])+',')
-                                #     f.write(str(wpz[0]-x_sol[4+(i+1)*(3*NW + 20)])+',')
-                                #     f.write(str(wpx[1]-x_sol[2+(i+1)*(3*NW + 20)])+',')
-                                #     f.write(str(wpy[1]-x_sol[3+(i+1)*(3*NW + 20)])+',')
-                                #     f.write(str(wpz[1]-x_sol[4+(i+1)*(3*NW + 20)])+',')
-                                #     f.write(str(x_sol[5+(i+1)*(3*NW + 20)])+',') #vx
-                                #     f.write(str(x_sol[6+(i+1)*(3*NW + 20)])+',') #vy
-                                #     f.write(str(x_sol[7+(i+1)*(3*NW + 20)])+',') #vz  
-                                #     f.write(str(x_sol[20+(i+1)*(3*NW + 20)])+',') #ax
-                                #     f.write(str(x_sol[21+(i+1)*(3*NW + 20)])+',') #ay
-                                #     f.write(str(x_sol[22+(i+1)*(3*NW + 20)]+9.81)+',') #az
-                                #     f.write(str(x_sol[11+(i+1)*(3*NW + 20)])+',') #wx
-                                #     f.write(str(x_sol[12+(i+1)*(3*NW + 20)])+',') #wy
-                                #     f.write(str(x_sol[13+(i+1)*(3*NW + 20)])+',') #wz
-                                #     f.write(str(x_sol[14+(i+1)*(3*NW + 20)]+x_sol[15+(i+1)*(3*NW + 20)]+x_sol[16+(i+1)*(3*NW + 20)]+x_sol[17+(i+1)*(3*NW + 20)])+',')  
-                                #     f.write(str(x_sol[18+(i+1)*(3*NW + 20)])+',')  
-                                #     f.write(str(x_sol[19+(i+1)*(3*NW + 20)])+',')
-                                #     f.write(str(x_sol[8+(i+1)*(3*NW + 20)])+',') #qx
-                                #     f.write(str(x_sol[9+(i+1)*(3*NW + 20)])+',') #qy
-                                #     f.write(str(x_sol[10+(i+1)*(3*NW + 20)])+'\n') #qz
+                                    f.write(str(wpx[0]-x_sol[2+(i+1)*(3*NW + 20)])+',')
+                                    f.write(str(wpy[0]-x_sol[3+(i+1)*(3*NW + 20)])+',')
+                                    f.write(str(wpz[0]-x_sol[4+(i+1)*(3*NW + 20)])+',')
+                                    f.write(str(wpx[1]-x_sol[2+(i+1)*(3*NW + 20)])+',')
+                                    f.write(str(wpy[1]-x_sol[3+(i+1)*(3*NW + 20)])+',')
+                                    f.write(str(wpz[1]-x_sol[4+(i+1)*(3*NW + 20)])+',')
+                                    f.write(str(x_sol[5+(i+1)*(3*NW + 20)])+',') #vx
+                                    f.write(str(x_sol[6+(i+1)*(3*NW + 20)])+',') #vy
+                                    f.write(str(x_sol[7+(i+1)*(3*NW + 20)])+',') #vz  
+                                    f.write(str(x_sol[20+(i+1)*(3*NW + 20)])+',') #ax
+                                    f.write(str(x_sol[21+(i+1)*(3*NW + 20)])+',') #ay
+                                    f.write(str(x_sol[22+(i+1)*(3*NW + 20)]+9.81)+',') #az
+                                    f.write(str(x_sol[11+(i+1)*(3*NW + 20)])+',') #wx
+                                    f.write(str(x_sol[12+(i+1)*(3*NW + 20)])+',') #wy
+                                    f.write(str(x_sol[13+(i+1)*(3*NW + 20)])+',') #wz
+                                    f.write(str(x_sol[14+(i+1)*(3*NW + 20)]+x_sol[15+(i+1)*(3*NW + 20)]+x_sol[16+(i+1)*(3*NW + 20)]+x_sol[17+(i+1)*(3*NW + 20)])+',')  
+                                    f.write(str(x_sol[18+(i+1)*(3*NW + 20)])+',')  
+                                    f.write(str(x_sol[19+(i+1)*(3*NW + 20)])+',')
+                                    f.write(str(x_sol[8+(i+1)*(3*NW + 20)])+',') #qx
+                                    f.write(str(x_sol[9+(i+1)*(3*NW + 20)])+',') #qy
+                                    f.write(str(x_sol[10+(i+1)*(3*NW + 20)])+'\n') #qz
                                             
     f.close()
