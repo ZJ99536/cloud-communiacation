@@ -109,18 +109,6 @@ def solve(self):
         g += [lam_init]
         lb += [1]*self.NW
         ub += [1]*self.NW
-        mu_init = MX.sym('mu_init', self.NW)
-        x += [mu_init]
-        xg += [0]*self.NW
-        g += [mu_init]
-        lb += [0]*self.NW
-        ub += [0]*self.NW
-        tau = MX.sym('tau', self.NW)
-        x += [tau]
-        xg += [0] * self.NW
-        g += [tau]
-        lb += [0]*self.NW
-        ub += [self.tol**2]*(self.NW)
 
         accx_init = MX.sym('accx_init', self.NX)
         x += [accx_init]
@@ -140,6 +128,20 @@ def solve(self):
         g += [accz_init]
         lb += [0]
         ub += [0]
+
+        mu_init = MX.sym('mu_init', self.NW)
+        x += [mu_init]
+        xg += [0]*self.NW
+        g += [mu_init]
+        lb += [0]*self.NW
+        ub += [0]*self.NW
+        tau = MX.sym('tau', self.NW)
+        x += [tau]
+        xg += [0] * self.NW
+        g += [tau]
+        lb += [0]*self.NW
+        ub += [self.tol**2]*(self.NW)
+
 
         dt = t / (self.N + 1)
 
@@ -243,13 +245,26 @@ def solve(self):
             ub += [self.T_max] * 4
             # ub += [self.m * self.gravity / 4 * 1.3] * 4
 
+
             self.lamx = MX.sym('lam' + str(i), self.NW)
-            self.mux = MX.sym('mu' + str(i), self.NW)
             x += [self.lamx]
             xg += [1]*self.NW
             g += [self.lamx]
             lb += [0]*self.NW
             ub += [1]*self.NW
+            
+            self.accx = MX.sym('accx' + str(i), self.NX)
+            self.accy = MX.sym('accy' + str(i), self.NX)
+            self.accz = MX.sym('accz' + str(i), self.NX)
+            x += [self.accx]
+            xg += [0]
+            x += [self.accy]
+            xg += [0]
+            x += [self.accz]
+            xg += [0]
+            
+            self.mux = MX.sym('mu' + str(i), self.NW)
+            
             x += [self.mux]
             xg += [0]*self.NW
             g += [self.mux]
@@ -261,16 +276,6 @@ def solve(self):
             g += [tau]
             lb += [0]*self.NW
             ub += [self.tol**2]*(self.NW)
-
-            self.accx = MX.sym('accx' + str(i), self.NX)
-            self.accy = MX.sym('accy' + str(i), self.NX)
-            self.accz = MX.sym('accz' + str(i), self.NX)
-            x += [self.accx]
-            xg += [0]
-            x += [self.accy]
-            xg += [0]
-            x += [self.accz]
-            xg += [0]
 
             for j in range(self.NW):
                 diff = (self.sx - self.wpx[j])**2 + (self.sy - self.wpy[j])**2 + (self.sz - self.wpz[j])**2
@@ -392,39 +397,39 @@ def solve(self):
         ax_end = MX.sym('ax_end', self.NX)
         x += [ax_end]
         xg += [0]
-        g += [ax_end]
-        lb += [0]
-        ub += [0]
+        # g += [ax_end]
+        # lb += [0]
+        # ub += [0]
         ay_end = MX.sym('ay_end', self.NX)
         x += [ay_end]
         xg += [0]
-        g += [ay_end]
-        lb += [0]
-        ub += [0]
+        # g += [ay_end]
+        # lb += [0]
+        # ub += [0]
         az_end = MX.sym('az_end', self.NX)
         x += [az_end]
         xg += [0]
-        g += [az_end]
-        lb += [0]
-        ub += [0]
+        # g += [az_end]
+        # lb += [0]
+        # ub += [0]
         wx_end = MX.sym('wx_end', self.NX)
         x += [wx_end]
         xg += [0]
-        g += [wx_end]
-        lb += [0]
-        ub += [0]
+        # g += [wx_end]
+        # lb += [0]
+        # ub += [0]
         wy_end = MX.sym('wy_end', self.NX)
         x += [wy_end]
         xg += [0]
-        g += [wy_end]
-        lb += [0]
-        ub += [0]
+        # g += [wy_end]
+        # lb += [0]
+        # ub += [0]
         wz_end = MX.sym('wz_end', self.NX)
         x += [wz_end]
         xg += [0]
-        g += [wz_end]
-        lb += [0]
-        ub += [0]
+        # g += [wz_end]
+        # lb += [0]
+        # ub += [0]
 
         u_end = MX.sym('u_end', 4)
         x += [u_end]
@@ -444,21 +449,21 @@ def solve(self):
         accx_end = MX.sym('accx_end', self.NX)
         x += [accx_end]
         xg += [0]
-        g += [accx_end]
-        lb += [0]
-        ub += [0]
+        # g += [accx_end]
+        # lb += [0]
+        # ub += [0]
         accy_end = MX.sym('accy_end', self.NX)
         x += [accy_end]
         xg += [0]
-        g += [accy_end]
-        lb += [0]
-        ub += [0]
+        # g += [accy_end]
+        # lb += [0]
+        # ub += [0]
         accz_end = MX.sym('accz_end', self.NX)
         x += [accz_end]
         xg += [0]
-        g += [accz_end]
-        lb += [0]
-        ub += [0]
+        # g += [accz_end]
+        # lb += [0]
+        # ub += [0]
 
 
         lx = self.sx
@@ -583,3 +588,4 @@ def solve(self):
         self.solution = self.solver(x0=self.xg, lbg=self.lb, ubg=self.ub)
         self.x_sol = self.solution['x'].full().flatten()
         return self.x_sol, dt, self.N, self.NW
+    
