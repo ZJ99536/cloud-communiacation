@@ -7,21 +7,22 @@ import matplotlib.pyplot as plt
 
 
 
+
 class Planner:
     def __init__(self,wpx,wpy,wpz):
         ## changeable
         
         self.NX = 1
         # self.a_max = 5
-        # self.wpx = [4.0, 4.5]
-        # self.wpy = [8.0, 7.5]
-        # self.wpz = [3.0, 6.0]
+        self.wpx = [1.0, 5.0]
+        self.wpy = [-2.0, 0.0]
+        self.wpz = [0.0, 2.0]
+        # self.wpx = [0.0]
+        # self.wpy = [4.0]
+        # self.wpz = [2.0]
         self.wpx = wpx
         self.wpy = wpy
         self.wpz = wpz
-        # self.wpx = [0.2, 5.0]
-        # self.wpy = [-1.4, 0.0]
-        # self.wpz = [0.2, 2.0]
         self.vel_guess = 3.0
         self.tol = 0.2
         self.gravity = 9.81
@@ -36,9 +37,8 @@ class Planner:
         self.dis = ((self.wpx[0])**2 + (self.wpy[0])**2 + (self.wpz[0]-2.0)**2)**0.5
         for i in range(len(self.wpx)-1):
             self.dis += ((self.wpx[i+1]-self.wpx[i])**2 + (self.wpy[i+1]-self.wpy[i])**2 + (self.wpz[i+1]-self.wpz[i])**2)**0.5
-        self.N = int(self.dis / 0.06)
+        self.N = int(self.dis / 0.05)
         print(self.N)
-
         if self.dis / self.N < self.tol:
             print("sufficient")
             print("sufficient")
@@ -646,7 +646,9 @@ class Planner:
         self.solution = self.solver(x0=self.xg, lbg=self.lb, ubg=self.ub)
         self.x_sol = self.solution['x'].full().flatten()
         return self.x_sol, dt, self.N, self.NW
+    
 
+    
 if __name__ == "__main__":
     # plan = Planner()
     # # print(plan.solve())
@@ -665,24 +667,24 @@ if __name__ == "__main__":
     # u_4 = []
     # u = []
 
-    f = open("/home/zhoujin/cloud-communiacation/library/quad1.txt",'w')      
+    f = open("/home/zhoujin/cloud-communiacation/library/quad3.txt",'a')      
 
     wpx = [1,1]
     wpy = [1,1]
     wpz = [1,1]
     count = 0
-    for x0i in range(-10,11):
+    for x0i in range(-5,6):
         for x1i in range(0,1):
             for y0i in range(-10,11):
                 for y1i in range(0,1):
                     for z0i in range(-10,11):
                         for z1i in range(0,1):
-                            wpx[0] = (20 + x0i) / 10.0
-                            wpx[1] = 4.0 + x1i * 0.2
-                            wpy[0] = y0i / 10.0
-                            wpy[1] = 0.0 + y1i * 0.2
-                            wpz[0] = (20 + z0i) / 10.0
-                            wpz[1] = 2.0 + z1i * 0.2
+                            wpx[0] = 2 + x0i * 0.2
+                            wpx[1] = 5 + x1i * 0.2
+                            wpy[0] = 0 + y0i * 0.2
+                            wpy[1] = 0 + y1i * 0.2
+                            wpz[0] = 2 + z0i * 0.2
+                            wpz[1] = 2 + z1i * 0.2
 
                             count += 1
                             print(count, "/ 9261")
@@ -691,7 +693,7 @@ if __name__ == "__main__":
                                 plan = Planner(wpx,wpy,wpz)
                                 x_sol, dt, N, NW = plan.solve()
                                 # # print(x_sol[0])             
-                                for i in range(N):                                
+                                for i in range(N+1):                                
                                     f.write(str(wpx[0]-x_sol[2+i*(3*NW + 20)])+',')
                                     f.write(str(wpy[0]-x_sol[3+i*(3*NW + 20)])+',')
                                     f.write(str(wpz[0]-x_sol[4+i*(3*NW + 20)])+',')
@@ -701,9 +703,9 @@ if __name__ == "__main__":
                                     f.write(str(x_sol[5+i*(3*NW + 20)])+',') #vx
                                     f.write(str(x_sol[6+i*(3*NW + 20)])+',') #vy
                                     f.write(str(x_sol[7+i*(3*NW + 20)])+',') #vz  
-                                    f.write(str(x_sol[24+i*(3*NW + 20)])+',') #ax
-                                    f.write(str(x_sol[25+i*(3*NW + 20)])+',') #ay
-                                    f.write(str(x_sol[26+i*(3*NW + 20)]+9.81)+',') #az
+                                    f.write(str(x_sol[20+i*(3*NW + 20)])+',') #ax
+                                    f.write(str(x_sol[21+i*(3*NW + 20)])+',') #ay
+                                    f.write(str(x_sol[22+i*(3*NW + 20)]+9.81)+',') #az
                                     f.write(str(x_sol[11+i*(3*NW + 20)])+',') #wx
                                     f.write(str(x_sol[12+i*(3*NW + 20)])+',') #wy
                                     f.write(str(x_sol[13+i*(3*NW + 20)])+',') #wz
@@ -720,9 +722,9 @@ if __name__ == "__main__":
                                     f.write(str(x_sol[5+(i+1)*(3*NW + 20)])+',') #vx
                                     f.write(str(x_sol[6+(i+1)*(3*NW + 20)])+',') #vy
                                     f.write(str(x_sol[7+(i+1)*(3*NW + 20)])+',') #vz  
-                                    f.write(str(x_sol[24+(i+1)*(3*NW + 20)])+',') #ax
-                                    f.write(str(x_sol[25+(i+1)*(3*NW + 20)])+',') #ay
-                                    f.write(str(x_sol[26+(i+1)*(3*NW + 20)]+9.81)+',') #az
+                                    f.write(str(x_sol[20+(i+1)*(3*NW + 20)])+',') #ax
+                                    f.write(str(x_sol[21+(i+1)*(3*NW + 20)])+',') #ay
+                                    f.write(str(x_sol[22+(i+1)*(3*NW + 20)]+9.81)+',') #az
                                     f.write(str(x_sol[11+(i+1)*(3*NW + 20)])+',') #wx
                                     f.write(str(x_sol[12+(i+1)*(3*NW + 20)])+',') #wy
                                     f.write(str(x_sol[13+(i+1)*(3*NW + 20)])+',') #wz
