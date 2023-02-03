@@ -671,7 +671,7 @@ if __name__ == "__main__":
     # u_4 = []
     # u = []
 
-    f = open("/root/cloud-communiacation/library/quad2.txt",'w')      
+    f = open("/home/zhoujin/cloud-communiacation/library/quad2.txt",'w')      
 
     wpx = [1,1]
     wpy = [1,1]
@@ -689,53 +689,56 @@ if __name__ == "__main__":
                             wpy[1] = 0.0 + y1i * 0.2
                             wpz[0] = 2.0 + z0i * 0.1
                             wpz[1] = 2.0 + z1i * 0.2
+                            
 
                             count += 1
                             print(count, "/ 9261")
-                    
-                            plan = Planner(wpx,wpy,wpz)
-                            x_sol, dt, N, NW = plan.solve()
-                            # print(x_sol[0])             
-                            for i in range(N+1):                                
-                                f.write(str(wpx[0]-x_sol[2+i*(3*NW + 20)])+',')
-                                f.write(str(wpy[0]-x_sol[3+i*(3*NW + 20)])+',')
-                                f.write(str(wpz[0]-x_sol[4+i*(3*NW + 20)])+',')
-                                f.write(str(wpx[1]-x_sol[2+i*(3*NW + 20)])+',')
-                                f.write(str(wpy[1]-x_sol[3+i*(3*NW + 20)])+',')
-                                f.write(str(wpz[1]-x_sol[4+i*(3*NW + 20)])+',') 
-                                f.write(str(x_sol[5+i*(3*NW + 20)])+',') #vx
-                                f.write(str(x_sol[6+i*(3*NW + 20)])+',') #vy
-                                f.write(str(x_sol[7+i*(3*NW + 20)])+',') #vz  
-                                f.write(str(x_sol[20+i*(3*NW + 20)])+',') #ax
-                                f.write(str(x_sol[21+i*(3*NW + 20)])+',') #ay
-                                f.write(str(x_sol[22+i*(3*NW + 20)]+9.81)+',') #az
-                                f.write(str(x_sol[11+i*(3*NW + 20)])+',') #wx
-                                f.write(str(x_sol[12+i*(3*NW + 20)])+',') #wy
-                                f.write(str(x_sol[13+i*(3*NW + 20)])+',') #wz
-                                f.write(str(x_sol[14+i*(3*NW + 20)]+x_sol[15+i*(3*NW + 20)]+x_sol[16+i*(3*NW + 20)]+x_sol[17+i*(3*NW + 20)])+',')  
-                                f.write(str(x_sol[18+i*(3*NW + 20)])+',')  
-                                f.write(str(x_sol[19+i*(3*NW + 20)])+',')   
+                            # print(wpx, wpy, wpz)
 
-                                f.write(str(wpx[0]-x_sol[2+(i+1)*(3*NW + 20)])+',')
-                                f.write(str(wpy[0]-x_sol[3+(i+1)*(3*NW + 20)])+',')
-                                f.write(str(wpz[0]-x_sol[4+(i+1)*(3*NW + 20)])+',')
-                                f.write(str(wpx[1]-x_sol[2+(i+1)*(3*NW + 20)])+',')
-                                f.write(str(wpy[1]-x_sol[3+(i+1)*(3*NW + 20)])+',')
-                                f.write(str(wpz[1]-x_sol[4+(i+1)*(3*NW + 20)])+',')
-                                f.write(str(x_sol[5+(i+1)*(3*NW + 20)])+',') #vx
-                                f.write(str(x_sol[6+(i+1)*(3*NW + 20)])+',') #vy
-                                f.write(str(x_sol[7+(i+1)*(3*NW + 20)])+',') #vz  
-                                f.write(str(x_sol[20+(i+1)*(3*NW + 20)])+',') #ax
-                                f.write(str(x_sol[21+(i+1)*(3*NW + 20)])+',') #ay
-                                f.write(str(x_sol[22+(i+1)*(3*NW + 20)]+9.81)+',') #az
-                                f.write(str(x_sol[11+(i+1)*(3*NW + 20)])+',') #wx
-                                f.write(str(x_sol[12+(i+1)*(3*NW + 20)])+',') #wy
-                                f.write(str(x_sol[13+(i+1)*(3*NW + 20)])+',') #wz
-                                f.write(str(x_sol[14+(i+1)*(3*NW + 20)]+x_sol[15+(i+1)*(3*NW + 20)]+x_sol[16+(i+1)*(3*NW + 20)]+x_sol[17+(i+1)*(3*NW + 20)])+',')  
-                                f.write(str(x_sol[18+(i+1)*(3*NW + 20)])+',')  
-                                f.write(str(x_sol[19+(i+1)*(3*NW + 20)])+',')
-                                f.write(str(x_sol[8+(i+1)*(3*NW + 20)])+',') #qx
-                                f.write(str(x_sol[9+(i+1)*(3*NW + 20)])+',') #qy
-                                f.write(str(x_sol[10+(i+1)*(3*NW + 20)])+'\n') #qz
-                                        
+                            if count >= 505:
+                                plan = Planner(wpx,wpy,wpz)
+                                x_sol, dt, N, NW = plan.solve()
+                                # print(x_sol[0])             
+                                for i in range(N+1):                                
+                                    f.write(str(wpx[0]-x_sol[2+i*(3*NW + 20)])+',')
+                                    f.write(str(wpy[0]-x_sol[3+i*(3*NW + 20)])+',')
+                                    f.write(str(wpz[0]-x_sol[4+i*(3*NW + 20)])+',')
+                                    f.write(str(wpx[1]-x_sol[2+i*(3*NW + 20)])+',')
+                                    f.write(str(wpy[1]-x_sol[3+i*(3*NW + 20)])+',')
+                                    f.write(str(wpz[1]-x_sol[4+i*(3*NW + 20)])+',') 
+                                    f.write(str(x_sol[5+i*(3*NW + 20)])+',') #vx
+                                    f.write(str(x_sol[6+i*(3*NW + 20)])+',') #vy
+                                    f.write(str(x_sol[7+i*(3*NW + 20)])+',') #vz  
+                                    f.write(str(x_sol[20+i*(3*NW + 20)])+',') #ax
+                                    f.write(str(x_sol[21+i*(3*NW + 20)])+',') #ay
+                                    f.write(str(x_sol[22+i*(3*NW + 20)]+9.81)+',') #az
+                                    f.write(str(x_sol[11+i*(3*NW + 20)])+',') #wx
+                                    f.write(str(x_sol[12+i*(3*NW + 20)])+',') #wy
+                                    f.write(str(x_sol[13+i*(3*NW + 20)])+',') #wz
+                                    f.write(str(x_sol[14+i*(3*NW + 20)]+x_sol[15+i*(3*NW + 20)]+x_sol[16+i*(3*NW + 20)]+x_sol[17+i*(3*NW + 20)])+',')  
+                                    f.write(str(x_sol[18+i*(3*NW + 20)])+',')  
+                                    f.write(str(x_sol[19+i*(3*NW + 20)])+',')   
+
+                                    f.write(str(wpx[0]-x_sol[2+(i+1)*(3*NW + 20)])+',')
+                                    f.write(str(wpy[0]-x_sol[3+(i+1)*(3*NW + 20)])+',')
+                                    f.write(str(wpz[0]-x_sol[4+(i+1)*(3*NW + 20)])+',')
+                                    f.write(str(wpx[1]-x_sol[2+(i+1)*(3*NW + 20)])+',')
+                                    f.write(str(wpy[1]-x_sol[3+(i+1)*(3*NW + 20)])+',')
+                                    f.write(str(wpz[1]-x_sol[4+(i+1)*(3*NW + 20)])+',')
+                                    f.write(str(x_sol[5+(i+1)*(3*NW + 20)])+',') #vx
+                                    f.write(str(x_sol[6+(i+1)*(3*NW + 20)])+',') #vy
+                                    f.write(str(x_sol[7+(i+1)*(3*NW + 20)])+',') #vz  
+                                    f.write(str(x_sol[20+(i+1)*(3*NW + 20)])+',') #ax
+                                    f.write(str(x_sol[21+(i+1)*(3*NW + 20)])+',') #ay
+                                    f.write(str(x_sol[22+(i+1)*(3*NW + 20)]+9.81)+',') #az
+                                    f.write(str(x_sol[11+(i+1)*(3*NW + 20)])+',') #wx
+                                    f.write(str(x_sol[12+(i+1)*(3*NW + 20)])+',') #wy
+                                    f.write(str(x_sol[13+(i+1)*(3*NW + 20)])+',') #wz
+                                    f.write(str(x_sol[14+(i+1)*(3*NW + 20)]+x_sol[15+(i+1)*(3*NW + 20)]+x_sol[16+(i+1)*(3*NW + 20)]+x_sol[17+(i+1)*(3*NW + 20)])+',')  
+                                    f.write(str(x_sol[18+(i+1)*(3*NW + 20)])+',')  
+                                    f.write(str(x_sol[19+(i+1)*(3*NW + 20)])+',')
+                                    f.write(str(x_sol[8+(i+1)*(3*NW + 20)])+',') #qx
+                                    f.write(str(x_sol[9+(i+1)*(3*NW + 20)])+',') #qy
+                                    f.write(str(x_sol[10+(i+1)*(3*NW + 20)])+'\n') #qz
+                                            
     f.close()
