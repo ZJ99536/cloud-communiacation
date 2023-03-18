@@ -23,13 +23,13 @@ class Planner:
         # self.wpy = [-1.4, 0.0]
         # self.wpz = [0.2, 2.0]
         self.vel_guess = 3.0
-        self.tol = 0.2
+        self.tol = 0.1
         self.gravity = 9.81
         self.m = 1
         self.l = 1
         ## self.I
         self.ctau = 0.5
-        self.T_max = 3.6
+        self.T_max = 6
         self.T_min = 0
 
         self.NW = len(self.wpx)
@@ -641,8 +641,11 @@ class Planner:
 
         # Construct Non-Linear Program
         self.nlp = {'f': self.J, 'x': self.x, 'g': self.g}
-
-        self.solver = nlpsol('solver', 'ipopt', self.nlp)
+        # self.solver_options = {}
+        # ipopt_options = {}
+        # ipopt_options['max_iter'] = 5000
+        # self.solver_options['ipopt'] = ipopt_options
+        self.solver = nlpsol('solver', 'ipopt', self.nlp, {'ipopt':{'max_iter':5000}})
         self.solution = self.solver(x0=self.xg, lbg=self.lb, ubg=self.ub)
         self.x_sol = self.solution['x'].full().flatten()
         return self.x_sol, dt, self.N, self.NW
@@ -665,12 +668,13 @@ if __name__ == "__main__":
     # u_4 = []
     # u = []
 
-    f = open("/home/zhoujin/cloud-communiacation/library/quad1.txt",'w')      
+    f = open("/home/zhoujin/cloud-communiacation/library/quad2_slow.txt",'a')      
 
     wpx = [1,1]
     wpy = [1,1]
     wpz = [1,1]
     count = 0
+    flag = 0
     for x0i in range(-10,11):
         for x1i in range(0,1):
             for y0i in range(-10,11):
@@ -683,11 +687,14 @@ if __name__ == "__main__":
                             wpy[1] = 0.0 + y1i * 0.2
                             wpz[0] = (20 + z0i) / 10.0
                             wpz[1] = 2.0 + z1i * 0.2
+                            
+                            # if x0i == 7 and y0i == 2 and z0i == -3 :
+                            #     flag = 1
 
                             count += 1
                             print(count, "/ 9261")
                             print(wpx, wpy, wpz)
-                            if count >= 1:
+                            if count <= 3000: #7632
                                 plan = Planner(wpx,wpy,wpz)
                                 x_sol, dt, N, NW = plan.solve()
                                 # # print(x_sol[0])             
